@@ -1,6 +1,8 @@
 # Basic data types
 
-This chapter briefly discusses the basic data types that are used in *R*. Here we mainly show how to create data of these types. There is much more on how to manipulate data in the following chapters. The most important basic (or "primitive") data types are the "numeric" and "character" types. Additional types are the "integer", which can be used to represent whole numbers; the "logical" and the "factor". These are all discussed below. 
+This chapter briefly discusses the basic data types that are used in *R*. We mainly show how to create data of these types. There is much more on how to manipulate data in the following chapters. 
+
+The most important basic (or "primitive") data types are the "numeric" (for numbers) and "character" (for text) types. Additional types are the "integer", which can be used to represent whole numbers; the "logical" for TRUE/FALSE, and the "factor" for categorical variables. These are all discussed below. 
 
 
 ## Numeric and integer values
@@ -12,7 +14,7 @@ a <- 7
 
 To do this yourself, type the code in an R console. Or, if you use R-Studio, use 'File / New File / R script' and type it in the new script. Then press "Run" or "Ctrl-Enter" (Apple-Enter on a Mac) to run the line (make sure your cursor is on the line that you want to run). 
 
-The "arrow" `<-` was used to **assign** the value `7` to variable `a`. You can pronounce the above as "a becomes 7".
+The "arrow" `<-` was used to **assign** the value `7` to variable `a`. You can pronounce the above as "a *becomes* 7".
 
 It is also possible to use the `=` sign.
 
@@ -22,9 +24,10 @@ a = 7
 
 Although you can use `=`, `<-` is preferred, because the arrow clearly indicates the assignment action, and because `=` is also used in another context (to pass arguments to functions). 
 
-The name `a` is entirely arbitrary. We could have used `x`, `varib`, `fruit` or any other name that would help us recognize it. There are a few restrictions: variable names cannot start with a number, and they cannot contain spaces or "special" characters, such as `*` (which is used for multiplication). 
+The variable name `a` used above is entirely arbitrary. We could have used `x`, `varib`, `fruit` or any other name that would help us recognize it. There are a few restrictions: variable names cannot start with a number, and they cannot contain spaces or "special" characters, such as `*` (which is used for multiplication). 
 
 To check the value of a, we can ask *R* to `show` or `print` it.
+
 ```{r}
 show(a)
 print(a)
@@ -54,7 +57,8 @@ a <- 7L
 class(a)
 ```
 
-To create a vector of several numbers, the `c` (combine) function can be used.
+To create a vector of several numbers, use the `c` (combine) function:
+
 ```{r}
 b <- c(1.25, 2.9, 3.0)
 b
@@ -74,8 +78,8 @@ You can also use the `:` to create a sequence in descending order.
 The `seq` function provides more flexibility. For example it allows for step sizes different than one. In this case we go from 3 to 12, taking steps of 3. Try some variations!
 
 ```{r}
-e <- seq(from=6, to=12, by=3)
-e
+seq(2,5,1)
+seq(from=6, to=12, by=3)
 ```
 
 To go in descending order the `by` argument needs to be negative.
@@ -83,7 +87,7 @@ To go in descending order the `by` argument needs to be negative.
 seq(from=12, to=0, by=-4)
 ```
 
-You can also reverse the order of a sequence, after making the sequence, using the `rev` function.
+You can also reverse the order of a sequence, after making the sequence, by using the `rev` function.
 
 ```{r}
 s <- seq(from=0, to=12, by=4)
@@ -92,34 +96,37 @@ r <- rev(s)
 r
 ```
 
-We will discuss *functions* like `seq` in more detail later. But, in essence, a *function* is a named procedure that performs a certain task. In this case the name is `seq`, and the task is to create a sequence of numbers. The exact specification of the sequence is modified by the *arguments* that are provided to `seq`, in this case: `from`, `to`, and `by`. If you are unsure what a function does, or which arguments are available, then read the function's help page. You can get to the help page for `seq` by typing `?seq` or `help(seq)`, and likewise for all other functions in *R*.
+We will discuss *functions* like `seq` in more detail later. But, in essence, a *function* is a named procedure that performs a certain task. In the examples above, a function name is `seq`, and the task is to create a sequence of numbers. 
+
+The exact specification of the sequence is modified by the *arguments* that are provided to `seq`, in this case: `from`, `to`, and `by`. If you are unsure what a function does, or which arguments are available, then read the function's help page. You can get to the help page for `seq` by typing `?seq` or `help(seq)`, and likewise for all other functions in *R*.
 
 The `rep` (for repeat) function provides another way to create a vector of numbers. You can repeat a single number, or a sequence of numbers. 
+
 ```{r}
 rep(9, times=5)
 rep(5:7, times=3)
 rep(5:7, each=3)
 ```
 
-
 ## Character values
 
-A character variable is used to represent letters, codes, or words. Character values are often referred to as a 'string'.  
+A character variable is used to represent letters, codes, or words. Character values are often referred to as a "string".  
 
 ```{r}
-x <- 'Yi'
-y <- 'Wong'
+x <- "Yi"
+y <- "Wong"
 class(x)
 x
 ```
 
-To distinguish a character value from a variable name, it needs to be quoted. `'x'` is a character value, but `x` is a variable! Double-quoted `"Yi"` is the same as single-quoted `'Yi'`, but you cannot mix the two in one value: `"Yi'` is not valid. But you can enclose one type of quote inside a pair of the other type. For example, you can do `"Yi's dog"` or `'Wong said "hello" and left'`. 
+To distinguish a character value from a variable name, it needs to be quoted. `"x"` is a character value, but `x` is a variable! Double-quoted `"Yi"` is the same as single-quoted `'Yi'`, but you cannot mix the two in one value: `"Yi'` is not valid. You can enclose one type of quote inside a pair of the other type. For example, you can do `"Yi's dog"` or `'Wong said "good bye" and left'`. 
 
 One of the most common mistakes for beginners is to forget the quotes. 
 
 ```{r error = TRUE}
 Yi
 ```
+
 The error occurs because *R* tries to print the value of variable `Yi`, but there is no such variable. So remember that any time you get the error message `object 'something' not found`, the most likely reason is that you forgot to quote a character value. If not, it probably means that you have misspelled, or not yet created, the variable that you are referring to.
 
 Keep in mind that *R* is case-sensitive: `a` is not the same as `A`. In most  computing contexts, `a` and `A` are **entirely** different and, for most intents and purposes, **unrelated** symbols. 
@@ -127,7 +134,7 @@ Keep in mind that *R* is case-sensitive: `a` is not the same as `A`. In most  co
 Now let's create variable `countries` holding a character vector of five elements.
 
 ```{r}
-countries <- c('China', 'China', 'Japan', 'South Korea', 'Japan')
+countries <- c("China", "China", "Japan", "South Korea", "Japan")
 class(countries)
 countries
 ```
@@ -150,6 +157,7 @@ It is handy to know that `letters` (a constant value, like `pi`) returns the alp
 z <- letters
 z
 up <- toupper(z)
+up
 ```
 
 Perhaps the most commonly used function for string manipulation is `paste`. This function is used to concatenate strings. For example:
@@ -157,7 +165,7 @@ Perhaps the most commonly used function for string manipulation is `paste`. This
 ```{r}
 girl <- "Mary"
 boy <- "John"
-paste(girl, "likes", boy)
+paste(girl, "talks to", boy)
 ```
 
 By default, paste uses a space to separate the elements. You can change that with the `sep` argument.
@@ -168,48 +176,54 @@ paste(girl, "likes", boy, sep = " ~ ")
 
 Sometimes you do not want any separator. You can then use `sep=""` or the `paste0` function.
 
-By using the "collapse" argument, we can concatenate all values of a vector into a single element.
+By using the "collapse" argument, we can concatenate all values of a vector into a single value.
+
 ```{r}
-paste(countries, collapse=' -- ')
+paste(countries, collapse=" -- ")
 ```
 
-We'll leave more advanced manipulation of strings for later, but here are two more important functions. To get a part of a string use 'substr'.
+We'll leave more advanced manipulation of strings for later, but here are two more important functions. To get a part of a string use `substr`.
 
 ```{r}
-substr('Hello World', 1, 5)
-substr('Hello World', 7, 11)
+substr("Hello World", 1, 5)
+substr("Hello World", 7, 11)
 ```
 
 To replace characters in a string use `gsub` or `sub`. 
 ```{r}
-gsub('l', '!!', 'Hello World')
-gsub('Hello', 'Bye bye', 'Hello World')
+gsub("l", "!!", "Hello World")
+gsub("Hello", "Bye bye", "Hello World")
 ```
 
-To find elements that fit a particular pattern use `grep`. It returns the index of the matching elements in a vector.
+To find elements that fit a particular pattern use `grep` or `grepl`. It returns the index of the matching elements in a vector. You can use the index to subset the original vector (we will see more of this later).
 
 ```{r}
-d <- c('az20', 'az21', 'az22', 'ba30', 'ba31', 'ba32')
-i <- grep('b', d)
+d <- c("az20", "az21", "az22", "ba30", "ba31", "ab32")
+i <- grep("ba", d)
 i
 d[i]
+# or like this
+grep("ba", d, value=TRUE)
+
+# Instead of the index, get logical values with grepl
+grepl("ba", d)
+
 ```
 
 Which elements of d include the character "2"?
 ```{r}
-grep('2', d)
+grep("2", d)
 ```
 
-Which elements of d *end* with the character "2"?  "$" has a special meaning.
+Which elements of d *end* with the character "2"?  `$` has a special meaning.
 ```{r}
-grep('2$', d)
+grep("2$", d)
 ```
 
-Which elements of d *start* with the character "b"?  "^" has a special meaning.
+Which elements of d *start* with the character "b"?  `^` has a special meaning.
 ```{r}
-grep('^b', d)
+grep("^b", d)
 ```
-
 
 
 ## Logical values
@@ -224,15 +238,17 @@ z <- c(TRUE, TRUE, FALSE)
 z
 ```
 
-`TRUE` and `FALSE` can be abbreviated to `T` and `F`, but that is very bad practice. This is because it is possible to change the value of `T` and `F` to something else which would be extraordinarily confusing. In contrast, `TRUE` and `FALSE` are constants that cannot be changed.
+`TRUE` and `FALSE` can be abbreviated to `T` and `F`, but that is bad practice. This is because it is possible to change the value of `T` and `F` to something else --- and that would be extraordinarily confusing. In contrast, `TRUE` and `FALSE` are constants that cannot be changed.
 
 Logical values are often the result of a computation. For example, here we ask if the values of `x` are larger than 3, which is `TRUE` for values 4 and 5
+
 ```{r}
-x <- 5
+x <- 2:5
 x > 3
 ```
 
-Likewise we can test for equality using two equal signs `==` (not `=` which would be an assignment!). `<=` means "smaller or equal".
+Likewise we can test for equality using two equal signs `==` (not `=` which would be an assignment!). `<=` means "smaller or equal" and `>=` means "larger or equal".
+
 ```{r}
 x == 3
 x <= 2
@@ -279,7 +295,7 @@ f2
 as.integer(f2)
 ```
 
-The result of as.integer(f2) may have been surprising. But it should not be, as there is no direct link between a category with label "5" and the number 5. In this case, "5" is simply the label of the first category and hence it gets converted to the integer 1. Nevertheless, we can get the numbers back as there is an established link between the character symbol '5' and the number 5. So we first create characters from the factor values, and then numbers from the characters.
+The result of as.integer(f2) may have been surprising. But it should not be, as there is no direct link between a category with label `"5"` and the number `5`. In this case, `"5"` is simply the label of the first category and hence it gets converted to the integer 1. Nevertheless, we can get the numbers back as there is an established link between the character symbol `"5"` and the number `5`. So we first create characters from the factor values, and then numbers from the characters.
 
 ```{r}
 fc2 <- as.character(f2)
@@ -312,8 +328,8 @@ Properly treating missing values is very important. The first question to ask wh
 Representing time is a somewhat complex problem. There are different calendars, hours, days, months, and leap years to consider. As a basic introduction, here is simple way to create date values.
 
 ```{r}
-d1 <- as.Date('2015-4-11')
-d2 <- as.Date('2015-3-11')
+d1 <- as.Date("2015-4-11")
+d2 <- as.Date("2015-3-11")
 class(d1)
 d1 - d2
 ```
