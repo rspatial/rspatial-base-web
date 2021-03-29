@@ -1,8 +1,8 @@
 # Basic data types
 
-This chapter briefly discusses the basic data types that are used in *R*. We mainly show how to create data of these types. There is much more on how to manipulate data in the following chapters. 
+This chapter introduces the basic data types that are used in *R*. We mainly show how to create data of these types. There is much more on how to manipulate data in the following chapters. 
 
-The most important basic (or "primitive") data types are the "numeric" (for numbers) and "character" (for text) types. Additional types are the "integer", which can be used to represent whole numbers; the "logical" for TRUE/FALSE, and the "factor" for categorical variables. These are all discussed below. 
+The most important basic (or "primitive") data types are the "numeric" (for numbers) and "character" (for text) types. Additional types are the "integer", which can be used to represent whole numbers; the "logical" for TRUE/FALSE, and the "factor" for categorical variables. These are all discussed below. In later chapters you will see how these basic types can be combined to represent more complex data types.
 
 
 ## Numeric and integer values
@@ -47,7 +47,7 @@ We can use the `class` function to find out what type of object `a` is (what cla
 class(a)
 ```
 
-*numeric* means that `a` is a real (decimal) number. Its value is equivalent to `7.000`, but trailing zeros are not printed by default. In a few cases it can be useful, or even necessary, to use integer (whole number) values. To create a vector with a single integer you can either use the `as.integer` function, or append an `L` to the number.
+*numeric* means that `a` is a vector of real (decimal) numbers. Its value is equivalent to `7.000`, but trailing zeros are not printed by default. In a few cases it can be useful, or even necessary, to use integer (whole number) values. To create a vector with a single integer you can either use the `as.integer` function, or append an `L` to the number.
 
 
 ```{r}
@@ -57,14 +57,14 @@ a <- 7L
 class(a)
 ```
 
-To create a vector of several numbers, use the `c` (combine) function:
+There are several ways to create vectors that consists of multiple numbers. For example, you can use the `c` (combine) function and spell out the values:
 
 ```{r}
 b <- c(1.25, 2.9, 3.0)
 b
 ```
 
-But to create a regular sequence it is easier to use `:`.  
+But if you want to create a regular sequence of whole numbers, it is easier to use `:`.  
 ```{r}
 d <- 5:9
 d
@@ -195,7 +195,7 @@ gsub("l", "!!", "Hello World")
 gsub("Hello", "Bye bye", "Hello World")
 ```
 
-To find elements that fit a particular pattern use `grep` or `grepl`. It returns the index of the matching elements in a vector. You can use the index to subset the original vector (we will see more of this later).
+To find elements that fit a particular pattern use `grep` or `grepl`. `grep` returns the index of the matching elements in a vector. You can use the index to subset the original vector (we will see more of this later).
 
 ```{r}
 d <- c("az20", "az21", "az22", "ba30", "ba31", "ab32")
@@ -204,10 +204,16 @@ i
 d[i]
 # or like this
 grep("ba", d, value=TRUE)
+```
 
+Above, also note the use of `#`. Lines that start with this character are ignored by *R*; so they can be used to provide natural language comments. 
+
+```{r} 
 # Instead of the index, get logical values with grepl
-grepl("ba", d)
-
+i <- grepl("ba", d)
+i
+# return the cases of d for which i is TRUE
+d[i]
 ```
 
 Which elements of d include the character "2"?
@@ -247,7 +253,7 @@ x <- 2:5
 x > 3
 ```
 
-Likewise we can test for equality using two equal signs `==` (not `=` which would be an assignment!). `<=` means "smaller or equal" and `>=` means "larger or equal".
+Likewise we can test for equality using two equal signs `==` (not a single `=` which would be an assignment!). `<=` means "smaller or equal" and `>=` means "larger or equal".
 
 ```{r}
 x == 3
@@ -311,13 +317,13 @@ At this point it is OK if you are confused about factors and *why* you might do 
 
 ## Missing values
 
-All basic data types can have "missing values". These are represented by the symbol `NA` for "not available". For example, we can have vector 'm' 
+All basic data types can have "missing values". These are represented by the symbol `NA` for "Not Available". For example, we can have vector 'm' 
 
 ```{r}
 m <- c(2, NA, 5, 2, NA, 2)
 m
 ```
-Note that `NA` is *not* quoted.
+Note that `NA` is *not* quoted (it is a special symbol, it is not the word "NA").
 
 Properly treating missing values is very important. The first question to ask when they appear is whether they should be missing (or did you make a mistake in the data manipulation?). If they should be missing, the second question becomes how to treat them. Can they be ignored? Should the records with `NA`s be removed?
 

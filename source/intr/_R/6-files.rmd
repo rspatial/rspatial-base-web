@@ -1,8 +1,9 @@
 # Read and write files
 
-In most cases, the first step in data analysis is to read in a file with data. This can be pretty complicated due to the variations in file format. Here we discuss reading matrix-like (data.frame/spreadsheet) data structures, which is the most common case and relatively painless. 
+In most cases, the first step in data analysis is to read values from a file. This can be pretty complicated due to the variations in file format. Here we discuss reading matrix-like (data.frame/spreadsheet) data structures, which is the most common case and relatively painless. 
 
-Although it is possible to directly read Excel files, we do not discuss that here.
+
+## Paths 
 
 To read a file into R, you need to know its name. That is, you need to know the full path (directory) name and the name of the file itself. Wrong path names often create confusion. On Windows, it is easy to copy the path from the top bar in Windows Explorer. On a Mac you can select the file and type Command + Option + C to copy the path to the clipboard.
 
@@ -12,10 +13,10 @@ Below I try to assign a Windows style full path and file name to a variable `f` 
 f <- "C:\projects\research\data\obs.csv"
 ```
 
-Yikes, an error! The problem is the use of backslashes. In R (and elsewhere), the backslash is the "escape" symbol, which is followed by another symbol to indicate a special character. For example, `"\t"` represents a "tab" and `"\n"` is the symbol for a new line (hard return). This is illustrated below.
+Yikes, an error! The problem is the use of back-slashes (`\`). In R (and elsewhere), the backslash is the "escape" symbol, which is followed by another symbol to indicate a special character. For example, `"\t"` represents a "tab" and `"\n"` is the symbol for a new line (hard return). This is illustrated below.
 
 ```{r}
-txt <- "Here is an example:\nA new line has started!\nAnd another one...\n"
+txt <- "Here is an example:\nA new line has started!\nAnd\tone\twith\ttabs\t...\t!\n"
 message(txt)
 ```
 
@@ -32,6 +33,20 @@ The values of `f1` and `f2` are just names. A file with that name may, or may no
 file.exists(f1)
 ```
 
+Note that in path names `.` and `..` have a special meaning. The single dot refers to the current directory (the "working directory"). The double dots refers to one directory level higher. So if you set your *working directory* in *R*, like this 
+
+```
+setwd("d:/rspatial/intro") 
+getwd()
+```
+
+Then this filename `"./data/input.csv"` is equivalent to `"d:/rspatial/intro/data/input.csv"`. 
+This filename `"../scratch/test.dat" refers to the same file as `"d:/rspatial/scratch/test.dat"`.
+And `"../../root.txt"` is the same file as `"d:/root.txt"`.
+
+
+## Files 
+
 To make what you see here reproducible, we'll first create files from some example data.
 
 ```{r}
@@ -42,8 +57,8 @@ d
 Now we write the values in data.frame `d` to disk. In this section, I show how to write to simple "text" files using two different (but related) functions: `write.csv` and `write.table`. It is also possible to read Excel files (with the `read_excel` function from the `readxl` package) and many other file types but that is not shown here. 
  
 ```{r}
-write.csv(d, 'test.csv', row.names=FALSE)
-write.table(d, 'test.dat', row.names=FALSE)
+write.csv(d, "test.csv", row.names=FALSE)
+write.table(d, "test.dat", row.names=FALSE)
 ```
 
 `write.csv` is a derived from `write.table`. The main difference between the two is that in `write.csv` the field separator is a comma ("csv" stands for "comma separated values"), while in `write.table` the default is a tab (the `\t` character). 
@@ -51,8 +66,8 @@ write.table(d, 'test.dat', row.names=FALSE)
 Now we have two files on disk.
 
 ```{r}
-file.exists('test.csv')
-file.exists('test.dat')
+file.exists("test.csv")
+file.exists("test.dat")
 ```
 
 As we only specified a file name, but not a path, the files are in our working directory. We can use `getwd`(get working directory) to see where that is.
@@ -64,13 +79,13 @@ getwd()
 The working directory is the 'default' location where *R* will look for files and write files. To get the full path name for one of the files we created, we can use `file.path`. 
 
 ```{r}
-file.path(getwd(), 'test.csv')
+file.path(getwd(), "test.csv")
 ```
 
-As this is a '.csv' (comma separated values) file we can read it with `read.csv`.
+As this is a ".csv" (comma separated values) file we can read it with `read.csv`.
 
 ```{r}
-d <- read.csv('test.csv', stringsAsFactors=FALSE)
+d <- read.csv("test.csv", stringsAsFactors=FALSE)
 head(d)
 ```
 
@@ -78,27 +93,27 @@ Sometimes values are delimited by other characters. In that case you can try `re
 
 
 ```{r}
-d <- read.table('test.dat', stringsAsFactors=FALSE)
+d <- read.table("test.dat", stringsAsFactors=FALSE)
 head(d)
 ```
 
 Note that `read.table` did not automatically recognize the header row with the variable names. Instead, the variable names have become the first records, and new dummy variable names `V1`, `V2` and `V3` were assigned. To fix that, we use the `header` argument:
 
 ```{r}
-d <- read.table('test.dat', header=TRUE, stringsAsFactors=FALSE)
+d <- read.table("test.dat", header=TRUE, stringsAsFactors=FALSE)
 head(d)
 ```
 
 `read.table` can also read csv files; you just need to tell it that the field delimiter is a comma.
 
 ```{r}
-d <- read.table('test.dat', sep=',', stringsAsFactors=FALSE)
+d <- read.table("test.dat", sep=",", stringsAsFactors=FALSE)
 ```
 
 In the examples above, I used `stringsAsFactors=FALSE`. This is not required, but it is helpful. Otherwise, all character variables are converted to factors, which in many cases is a nuisance. If `read.table` fails, there are other options, such as `readLines`.
 
 ```{r}
-d <- readLines('test.csv')
+d <- readLines("test.csv")
 class(d)
 d
 ```
@@ -106,7 +121,7 @@ d
 But this makes it more difficult to process the data. You may need to do something like:
 
 ```{r}
-x <- sapply(d, function(i){ unlist(strsplit(i, ',')) }, USE.NAMES=FALSE)
+x <- sapply(d, function(i){ unlist(strsplit(i, ",")) }, USE.NAMES=FALSE)
 t(x)
 ```
 
@@ -126,4 +141,33 @@ Before writing files (e.g. with `write.csv`, `write.table`, or `writeLines`), yo
  
 Filenames need to be the *full* file name, including the path, unless you are reading from or writing to the working directory. You can set the working directory with `setwd`. For example: `setwd("C:/projects/research/)`.
  
- 
+## Excel files 
+
+It it is possible to directly read Excel files with the `readxl` package. You may first need to install the package with 
+
+```
+install.packages("readxl")
+```
+
+The package comes with example files 
+```{r}
+f <- readxl_example("datasets.xlsx")
+basename(f)
+```
+
+And we can read that file like this 
+
+```{r}
+x <- read_excel(f)
+head(x)
+```
+
+This returns a `tibble` which is similar to the `data.frame`. We can turn it into a `data.frame` with 
+
+```{r}
+x <- as.data.frame(x)
+class(x)
+head(x)
+```
+
+See `?read_excel` for options such as selecting a specific "sheet"

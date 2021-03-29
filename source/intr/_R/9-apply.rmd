@@ -13,7 +13,7 @@ m
 
 ## apply
 
-Computation with matrices is 'vectorized'. For example you can do `m * 5`to multiply all values of m with 5 or do `m^2` or `m * m` to square the values of `m`. But often we need to compute values for the margins of a matrix, that is, a single value for each row or column. The `apply` function can be used for that:
+Computation with matrices is 'vectorized'. For example you can do `m * 5` to multiply all values of m with 5 or do `m^2` or `m * m` to square the values of `m`. But often we need to compute values for the margins of a matrix, that is, a single value for each row or column. The `apply` function can be used for that:
 
 ```{r}
 # sum values in each row
@@ -23,7 +23,7 @@ apply(m, 1, sum)
 apply(m, 2, mean)
 ```
 
-Note that the apply uses at least three arguments: a matrix, a 1 or 2 indicating whether the computation is for rows or for columns, and a function that computes a new value (or values) for each row or column. You can read more about this in the help file of the function (type `?apply` ). In most cases you will also add the argument `na.rm=TRUE` to remove `NA` (missing) values as any computation that includes an `NA` value will return `NA`. In this case we used existing basic functions `mean` and `sum` but we could also supply a function that we wrote ourselves. 
+`apply` needs at least three arguments: a `matrix` or `data.frame`, a value that is either 1 or 2 indicating whether the computation is for rows or for columns, and a function that computes a new value (or values) for each row or column. You can read more about this in the help file of the function (type `?apply` ). In most cases you will also add the argument `na.rm=TRUE` to remove missing values as any computation that includes an `NA` will return `NA`. In this case we used existing basic functions `mean` and `sum` but we could also supply a function that we wrote ourselves. 
 
 Note that `apply`(and related functions such as `tapply` and `sapply` are ways to avoid writing a loop. In the `apply` examples above you could have written a loop to do the computations row by row (or column by column) but using `apply` is more compact and efficient.
 
@@ -60,15 +60,15 @@ tapply(d$v2, d$name, mean, na.rm=TRUE)
 `aggregate` is similar to `tapply` but more convenient if you want to compute a summary statistic for multiple variables. It does have the annoying problem that the second argument cannot be a vector:
 
 ```{r}
-aggregate(d[, c('v1', 'v2', 'v3')], d$name, mean, na.rm=TRUE)
+aggregate(d[, c("v1", "v2", "v3")], d$name, mean, na.rm=TRUE)
 ```
 
 You can fix that in two ways
 
 ```{r}
-aggregate(d[, c('v1', 'v2', 'v3')], d[, 'name', drop=FALSE], mean, na.rm=TRUE)
+aggregate(d[, c("v1", "v2", "v3")], d[, "name", drop=FALSE], mean, na.rm=TRUE)
 # or 
-aggregate(d[, c('v1', 'v2', 'v3')], list(d$name), mean, na.rm=TRUE)
+aggregate(d[, c("v1", "v2", "v3")], list(d$name), mean, na.rm=TRUE)
 ```
 
 As explained before, this is why the first one works: when you extract a single column from a `matrix` or `data.frame`, the structure (class) "drops" to a simpler form, it becomes a vector. `drop=FALSE` stops that from happening. 
@@ -79,8 +79,8 @@ As explained before, this is why the first one works: when you extract a single 
 To iterate over a list, we can use `lapply` or `sapply` . The difference is that `lapply` always returns a list while `sapply` tries to simplify the result to a vector or matrix.
 
 ```{r}
-names <- list('Antoinette', 'Mary', 'Duncan', 'Obalaya', 'Jojo')
-nchar('Jim')
+names <- list("Antoinette", "Mary", "Duncan", "Obalaya", "Jojo")
+nchar("Jim")
 
 lapply(names, nchar)
 sapply(names, nchar)

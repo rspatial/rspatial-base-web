@@ -1,6 +1,6 @@
 # Functions
 
-We now have used many functions that come with *R*. For example `c`, `matrix`, `read.csv`, and `sum`. Functions are always used ('called') by typing their name, followed by parenthesis. In most, but not all, cases you supply 'arguments' within the parenthesis. If you do not type the parenthesis the function is not called. Instead, either the function definition or some of type of reference to it is shown.
+We now have used many functions that come with *R*. For example `c`, `matrix`, `read.csv`, and `sum`. Functions are always used ('called') by typing their name, followed by parenthesis. In most, but not all, cases you supply 'arguments' within the parenthesis. If you do not type the parenthesis the function is not called. Instead, either the function definition, or some of type of reference to it, is shown.
 
 ## Existing functions
 
@@ -14,13 +14,14 @@ We see that `nrow` has a single argument called `x`. It calls another function, 
 ```{r}
 dim
 ```
-It is a 'primitive' (low level) *R* function that we cannot easily learn more about. Well, you could, by looking at the source code of *R* --- but that is way out of scope of this tutorial.
+
+It is a 'primitive' (low level) *R* function that we cannot easily learn more about. Well, you could, by looking at the source code of *R* --- but that is way out of scope for this tutorial.
 
 To run (instead of inspect) `nrow` we add parentheses:
 ```{r}
 nrow()
 ```
-But this fails, because the function requires a valid argument, like this:
+This fails, because the function requires a valid argument, like this:
 
 ```{r}
 m <- matrix(1:6, nrow=2, ncol=3, byrow=TRUE)
@@ -43,8 +44,7 @@ because the first argument of `nrow` is called `x`.
 - re-use code. Rather than repeating the same steps several times (e.g. for each of 200 cases you are analysing), you can write a function that gets called 200 times. This should lead to faster development of scripts and to fewer mistakes. And if there is a mistake it only needs to be fixed in one place. 
 - create a function that is an argument to another function (!). This is quite commonly done when using 'apply' type functions (see next chapter).
 
-
-Writing your own functions is not difficult. The below is a very simple function. It is called `f`. This is an entirely arbitrary name. You can also call it `myFirstFunction`. It takes no arguments, and always returns 'hello'.
+For these reasons, writing functions is one of the most important coding skills to learn. Writing your own functions is not difficult. The below is a very simple function. It is called `f`. This is an entirely arbitrary name. You can also call it `myFirstFunction`. It takes no arguments, and always returns 'hello'.
 
 ```{r}
 f <- function() {
@@ -68,21 +68,21 @@ f()
 
 ```{r}
 f <- function(name) {
-	x <- paste('hello', name)
+	x <- paste("hello", name)
 	return(x)
 }
 
 f('Jasmin')
 ```
 
-Note the `return` statement. This indicates that variable `x` (which is only known inside of the function) is returned to the caller of the function. Simply typing `x` would also suffice, and ending the function with `paste('hello', name)` would also do! So the below is equivalent but shorter, at the expense of being less explicit.
+Note the `return` statement. This indicates that variable `x` (which is only known inside of the function) is returned to the caller of the function. Simply typing `x` would also suffice, and ending the function with `paste("hello", name)` would also do! So the below is equivalent but shorter, at the expense of being less explicit.
 
 ```{r}
 f <- function(name) {
-	paste('hello', name)
+	paste("hello", name)
 }
 
-f('Sviatoslav')
+f("Sviatoslav")
 ```
 
 
@@ -91,7 +91,7 @@ Here is a function that returns a sequence of letters. The length is determined 
 ```{r}
 frs <- function(n) {
 	s <- sample(letters, n, replace=TRUE)
-	r <- paste0(s, collapse='')
+	r <- paste0(s, collapse="")
 	return(r)
 }
 ```
@@ -176,7 +176,7 @@ nunique <- function(x) {
     length(unique(x)) 
 }
 
-data <- c('a', 'b', 'a', 'c', 'b')
+data <- c("a", "b", "a", "c", "b")
 nunique(data)
 ```
 

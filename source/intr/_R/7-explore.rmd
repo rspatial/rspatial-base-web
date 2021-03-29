@@ -4,7 +4,7 @@ After reading data from a file (see the previous chapter), the next thing to do 
 
 Sometimes you can correct errors in *R* but in other cases you first need to fix the data file. Fixing a data file can be the way to go if you are dealing with your own primary data. However when you are working with a file provided by someone else it is generally better to not change the file, but to correct things via *R* code, if possible. That leaves an exact trail of what you have done, and allows you to apply the same corrections to a new version of the data. 
 
-Inspecting your data is also important to understand it better, and such "exploratory data analysis" can be an important step before doing the specific analyses of interest. There are many general and specialized tools for this, and here we only cover some of the very basic tools. 
+Inspecting your data is also important to understand it better, and such "exploratory data analysis" can be an important step before doing the specific analyses of interest. There are many general and specialized tools for this, and here we only cover some of the basics. 
 
 
 ## Summary and table
@@ -44,14 +44,14 @@ unique(d$name)
 table(d$name)
 ```
 
-Often you will discover slight variations in spelling that need to be corrected. In this case, let's assume that 'Bobby' and 'Bab' should both be 'Bob'. We replace 'Bab' and 'Bobby' with 'Bob'.  
+Often you will discover slight variations in spelling that need to be corrected. In this case, let's assume that "Bobby" and "Bab" should both be "Bob". We replace "Bab" and "Bobby" with "Bob".  
 
 ```{r}
-d$name[d$name %in% c('Bab', 'Bobby')] <- 'Bob'
+d$name[d$name %in% c("Bab", "Bobby")] <- "Bob"
 table(d$name)
 ```
 
-'jim' should be "Jim". It is easy enough to replace as done above. But what if there were many cases like that? 
+"jim" should be "Jim". It is easy enough to replace as done above. But what if there were many cases like that? 
 It would be easy to make all character values lower- or uppercase with `d$name <- toupper(d$name)` but I want to keep the normal name capitalization of the first letter only. So let's assure that all names start with an uppercase letter.
 
 ```{r}
@@ -71,16 +71,16 @@ table(d$name)
 The question marks in `name` should probably also be replaced with `NA`.
 
 ```{r}
-d$name[d$name == '???'] <- NA
+d$name[d$name == "???"] <- NA
 table(d$name)
 ```
 
 You can force `table` to also count the `NA` values:
 ```{r}
-table(d$name, useNA='ifany')
+table(d$name, useNA="ifany")
 ```
 
-Note that there is one 'empty' value.
+Note that there is one "empty" value.
 
 ```{r}
 d$name[9]
@@ -89,13 +89,13 @@ d$name[9]
 That should also be a missing value in this case.
 
 ```{r}
-d$name[d$name == ''] <- NA
-table(d$name, useNA='ifany')
+d$name[d$name == ""] <- NA
+table(d$name, useNA="ifany")
 ```
 
 You can also use `table` to make a contingency table of two variables.
 ```{r}
-table(d[ c('name', 'score2')])
+table(d[ c("name", "score2")])
 ``` 
 
 ## Quantile, range, and mean
@@ -122,7 +122,7 @@ In this data exploration phase it is very useful to make plots. We'll discuss pl
 ```{r, plot1, fig.cap=""}
 par(mfrow=c(2,2))
 plot(d$score1, d$score2)
-boxplot(d[, c('score1', 'score2')])
+boxplot(d[, c("score1", "score2")])
 plot(sort(d$score1))
 hist(d$score2)
 ```

@@ -2,7 +2,7 @@
 
 There are multiple ways to access or replace values in vectors or other data structures. The most common approach is to use "indexing". This is also referred to as "slicing".
 
-Note that brackets `[ ]` are used for indexing, whereas parentheses `( )` are used to call a function. 
+In the below, note that brackets `[ ]` are used for indexing, whereas you have already seen that parentheses `( )` are used to call a function. Later on, you will also see the use of `{ }`. It is very important not to mix these up.
 
 ## Vector
 
@@ -27,12 +27,15 @@ Get elements 2 and 3
 b[2:3]
 # this is the same as
 b[c(2,3)]
+# or 
+i <- 2:3
+b[i]
 ```
 
 Now a more advanced example, return all elements except the second
 ```{r}
 b[c(1,3:6)]
-# or the simpler:
+# or the much simpler:
 b[-2]
 ```
 
@@ -126,7 +129,7 @@ m[,2:3] <- 3:1
 m
 ```
 
-There is a function to get (or set) the values on the diagonal.
+There is a function to get (or set) the values on the diagonal of the matrix.
 
 ```{r}
 diag(m)
@@ -137,7 +140,7 @@ m
 
 ## List
 
-Indexing lists can be a bit confusing as you can both refer to the elements of the list, or the elements of the data (perhaps a matrix) in one of the list elements. Note the difference that double brackets make. `e[3]` returns a list (of length 1), but `e[[3]]` returns what is inside that list element (a matrix in this case)
+Indexing lists can be a bit confusing as you can both refer to the elements of the list, or the elements of the data (perhaps a matrix) in one of the list elements. Below, note the difference that double brackets make. `e[3]` returns a list (of length 1), but `e[[3]]` returns what is inside that list element (a matrix in this case)
 
 ```{r}
 m <- matrix(1:9, nrow=3, ncol=3, byrow=TRUE)
@@ -151,7 +154,6 @@ We can access data inside a list element by combining double and single brackets
 e[2]
 e[[2]]
 ```
-
 
 List elements can have names.
 
@@ -215,7 +217,7 @@ or
 d[ , 'b', drop=FALSE]
 ```
 
-Why should you care about this `drop` business? Well, in many cases *R* functions want a specific data type, such as a `matrix` or `data.frame` and report an error if they get something else. One common situation is that you think you provide data of the right type, such as a `data.frame`, but that in fact you are providing a `vector`, because the structure `dropped`.
+Why should you care about this `drop` business? Well, in many cases *R* functions want a specific data type, such as a `matrix` or `data.frame` and report an error if they get something else. One common situation is that you think you provide data of the right type, such as a `data.frame`, but that in fact you are providing a `vector`, because the structure `dropped` if you subsetted the data to a single column.
 
 
 ## Which, %in% and match 
@@ -252,12 +254,12 @@ Another handy similar function is `match`:
 ```{r}
 match(j, x)
 ```
-telling us that the third value in `j` is equal to the second value in `x` and that the fourth value in 'j' is equal to the fourth value in `x`.
+This tells us that the third value in `j` is equal to the second value in `x` and that the fourth value in 'j' is equal to the fourth value in `x`.
 
 `match` is asymmetric: `match(j,x)` is not the same as `match(x,j)`.
 
 ```{r}
 match(x, j)
 ```
-This tells us that the second value in `x` is equal to the third value in 'j', etc.
+This shows that the second value in `x` is equal to the third value in 'j', etc.
 

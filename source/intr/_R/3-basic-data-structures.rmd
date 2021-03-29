@@ -1,6 +1,6 @@
 # Basic data structures
 
-In the previous chapter we saw the most basic data types in *R*: vectors of numeric, integer, character, factor and boolean values. These were all stored as a `vector`. A vector is a one dimensional structure. In this chapter we look at additional, multi-dimensional, data structures that can store basic data: the `matrix`, `data.frame` and `list`.
+In the previous chapter we saw the most basic data types in *R*: vectors of numeric, integer, character, factor and boolean values. A vector is a one-dimensional structure of a single type. In this chapter we look at multi-dimensional data structures: the `matrix`, `data.frame` and `list`.
 
 ## Matrix
 
@@ -28,7 +28,7 @@ m <- matrix(1:6, ncol=2, nrow=3)
 t(m)
 ```
 
-Matrices are often created by column-binding and/or row-binding vectors, using the function `cbind` or `rbind`. These are two of the most commonly used functions in *R* so pay close attention!
+Matrices are often created by column-binding and/or row-binding vectors (or other matrices), using the function `cbind` or `rbind`. These are two of the most commonly used functions in *R* so pay close attention!
  
 ```{r}
 a <- c(1,2,3)
@@ -47,7 +47,7 @@ m2 <- rbind(a, b)
 m2
 ```
 
-You can also use `cbind` and `rbind` bind (append) matrices, as long as the number of rows or columns of the two objects are the same.
+You can also use `cbind` and `rbind` to combine (append) matrices, as long as the number of rows or columns of the two objects are the same.
 
 ```{r}
 m3 <- cbind(b, b, a)
