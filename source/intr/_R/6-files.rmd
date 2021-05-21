@@ -151,14 +151,14 @@ install.packages("readxl")
 
 The package comes with example files 
 ```{r}
-f <- readxl_example("datasets.xlsx")
+f <- readxl::readxl_example("datasets.xlsx")
 basename(f)
 ```
 
 And we can read that file like this 
 
 ```{r}
-x <- read_excel(f)
+x <- readxl::read_excel(f)
 head(x)
 ```
 

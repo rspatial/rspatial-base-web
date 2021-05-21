@@ -40,37 +40,39 @@ do_knit <- function(option, quiet=TRUE) {
 		}
 	}
 	if (length(ff) > 0) {
-		library(knitr)
+		##library(knitr)
+		loadNamespace("knitr")
+
 		outf <- gsub("_R/", "", ff)
-		md <-  raster::extension(outf, '.md')
-		rst <- raster::extension(outf, '.rst')
+		md <-  gsub(".rmd$", '.md', outf)
+		rst <-  gsub(".rmd$", ".rst", outf)
 		txtp <- file.path(dirname(outf), "txt", basename(outf))
-		rcd <- raster::extension(txtp, '.txt')
+		rcd <- gsub(".rmd$", ".txt", txtp)
 		
-		opts_chunk$set(
+		knitr::opts_chunk$set(
 			dev        = 'png',
 			fig.width  = 6,	fig.height = 6,
 			fig.path = 'figures/',
 			fig.cap="",
-			collapse   = TRUE,
-			tidy.opts=list(width.cutoff=60)
+			collapse   = TRUE
 		)
+		#opts_chunk$set(tidy.opts=list(width.cutoff=60))
 
 		
 		for (i in 1:length(ff)) {
 		
 			dn <- dirname(rst[i])
 			if (dn != ".") {
-				opts_chunk$set(
+				knitr::opts_chunk$set(
 					fig.path = paste0(dn, '/figures/')
 				)
 				fdirclean <- TRUE
 			} else {
 				fdirclean <- FALSE
 			}
-			cat(paste("   ", raster::extension(outf[i], ""), "\n"))
-			knit(ff[i], md[i], envir = new.env(), encoding='UTF-8', quiet=quiet)
-			purl(ff[i], rcd[i], quiet=TRUE)
+			cat(paste("   ", tools::file_path_sans_ext(outf[i]), "\n"))
+			knitr::knit(ff[i], md[i], envir = new.env(), encoding='UTF-8', quiet=quiet)
+			knitr::purl(ff[i], rcd[i], quiet=TRUE)
 			if (fdirclean) {
 				x <- readLines(md[i])
 				j <- grep("png", x)
@@ -92,7 +94,8 @@ if (tolower(Sys.info()["sysname"])=="windows"){
 }
 
 args <- commandArgs(TRUE)
-ch <- grep("_R$", list.dirs(recursive=T), value=TRUE)
+ch <- grep("_R$", list.dirs(recursive=TRUE), value=TRUE)
+chapters <- grep("/source/", ch, value=TRUE)
 chapters <- gsub("\\./source/", "", gsub("/_R", "", ch))
 
 if (length(args) < 1) {
