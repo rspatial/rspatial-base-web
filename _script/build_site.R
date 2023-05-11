@@ -41,12 +41,14 @@ if (!dopdf) {
 
 	ff <- list.files("build/html", patt='\\.html$', recursive=TRUE, full=TRUE)
 
-#	ignore_errors <- c("build/html/intr/2-basic-data-types.html", "build/html/intr/7-explore.html" ,"build/html/intr/8-functions.html", "build/html/intr/9-apply.html", "build/html/cases/3-speciesdistribution.html")
-
 
 	ignore_errors <- c("Error in eval(expr, envir, enclos): object &#39;Yi", "Error in quantile.default(d$score2): missing value", "Error: &#39;\\p&#39; is an unrecognized escape in c",
     "Error in nrow(): argument &quot;x&quot; is missing", "Error in sumsquare(a = 1, d = 2): unused argument ",
 "Error in sumsquare(1:5): argument &quot;b&quot; is", "Error in f1(x, ...): unused argument (z = 5)</span", "Error in aggregate.data.frame(d[, c(&quot;v1&quot;")
+
+	txtin <-  'R.txt" rel="nofollow"> View page source</a>'
+	txtout <- 'R.txt" rel="nofollow"> <em>R</em> code</a>'
+	txt2 <- '.rst.txt" rel="nofollow"> View page source</a>$'
 
 	for (f in ff) {
 		x <- readLines(f, warn=FALSE)
@@ -59,6 +61,11 @@ if (!dopdf) {
 			print(e)
 			cat("----\n\n")
 		}
+		x <- gsub(txtin, txtout, x)
+		i <- grep(txt2, x)
+		x[i] <- paste("<!--", x[i], "-->")
+
+		writeLines(x, f)	
 	}
 
 

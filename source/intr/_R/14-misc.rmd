@@ -25,7 +25,7 @@ It is very important to stay up to date with R and the packages, as they improve
 ## Piping
 
 
-It has become quite common to use the `%>%` "piping" operator in R defined in the `magrittr` package (base *R* will introduce `|>` in version 4.1). We do not use it in our tutorials, but we show it here so that you can understand it when you come across it.
+It has become quite common to use the `|>` "piping" operator in R, or the `or `%>%` variant defined in the `magrittr` package. We do not use it much in our tutorials, but we show it here so that you can understand it when you come across it.
 
 In this example we have vector v. We want to change it into a data.frame with 1o rows and 3 columns, use apply to get the mean values per row, and show the first few results 
 
@@ -53,10 +53,9 @@ Nested function calls can be difficult to read, as they need to be read from the
 The "piped" approach goes like this
 
 ```{r}
-library(magrittr)
-x <- v %>%
-		matrix(nrow=10) %>% 
-		as.data.frame %>% 
+x <- v |>
+		matrix(nrow=10) |>
+		as.data.frame() |> 
 		apply(MARGIN=1, FUN=mean)
 
 head(x)
@@ -65,12 +64,12 @@ head(x)
 Or on one line
 
 ```{r}
-v %>% matrix(nrow=10) %>%  as.data.frame %>%  apply(MARGIN=1, FUN=mean) %>% head
+v |> matrix(nrow=10) |>  as.data.frame() |>  apply(MARGIN=1, FUN=mean) |> head()
 ```
 
 Note that we start with an object `v` that gets passed to the first function (`as.data.frame`) as its first argument. The output of that function becomes the first argument of the next function and so on. 
 
-Compared to nested function calls, the benefit of this approach is that the operation sequence is read from left-to-right (not from the inside and out). Compared with non-nested function calls, the benefit of this approach is that there are fewer variables created. The downside is that it is harder to debug (find errors) or improve the code, because you cannot inspect the results from intermedidate steps.
+Compared to nested function calls, the benefit of this approach is that the operation sequence is read from left-to-right (not from the inside and out). Compared with non-nested function calls, the benefit of this approach is that there are fewer variables created. The downside is that it is harder to debug (find errors) or improve the code, because you cannot inspect the results from intermediate steps.
 
   
 

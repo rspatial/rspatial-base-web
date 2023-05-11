@@ -22,7 +22,7 @@ It is also possible to use the `=` sign.
 a = 7
 ```
 
-Although you can use `=`, `<-` is preferred, because the arrow clearly indicates the assignment action, and because `=` is also used in another context (to pass arguments to functions). 
+Although you can use `=`, we use `<-` because the arrow clearly indicates the assignment action, and because `=` is also used in another context (to pass arguments to functions). 
 
 The variable name `a` used above is entirely arbitrary. We could have used `x`, `varib`, `fruit` or any other name that would help us recognize it. There are a few restrictions: variable names cannot start with a number, and they cannot contain spaces or "special" characters, such as `*` (which is used for multiplication). 
 
